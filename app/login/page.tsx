@@ -19,16 +19,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { User, ShieldCheck } from "lucide-react";
 
-// future use
-// interface ToastMessage {
-//   description: string;
-//   title?: string;
-// }
-
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { login } = useAuth();
   const { toast } = useToast();
@@ -36,6 +31,7 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent, isAdmin: boolean) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
 
     try {
       if (isAdmin) {
@@ -53,6 +49,8 @@ export default function LoginPage() {
     } catch (err) {
       console.error("Login failed:", err);
       setError("Invalid credentials");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -63,7 +61,7 @@ export default function LoginPage() {
           <CardTitle>Welcome Back</CardTitle>
           <CardDescription>Sign in to your account to continue</CardDescription>
         </CardHeader>
-        <Tabs defaultValue="user">
+        <Tabs defaultValue="user" key="login-tabs">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="user">
               <User className="mr-2 h-4 w-4" />
@@ -90,6 +88,7 @@ export default function LoginPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    disabled={isLoading}
                   />
                 </div>
                 <div className="space-y-2">
@@ -100,11 +99,12 @@ export default function LoginPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    disabled={isLoading}
                   />
                 </div>
               </CardContent>
               <CardFooter className="flex flex-col space-y-4">
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full" disabled={isLoading}>
                   Sign In
                 </Button>
                 <p className="text-sm text-center text-muted-foreground">
@@ -134,7 +134,7 @@ export default function LoginPage() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full" disabled={isLoading}>
                   <ShieldCheck className="mr-2 h-4 w-4" />
                   Login as Administrator
                 </Button>

@@ -1,7 +1,6 @@
 import { getProducts, getCategories } from "@/lib/api";
 import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
-import type { Product, Category } from "@/lib/types";
 
 export async function generateStaticParams() {
   const categories = await getCategories();
@@ -38,7 +37,6 @@ export default async function CategoryPage({ params }: PageProps) {
       products={filteredProducts}
       category={category}
       categories={categories}
-      params={params}
     />
   );
 }
