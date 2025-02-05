@@ -59,14 +59,28 @@ function AccountPage() {
     newsletter: true,
   });
 
-  // Fetch wishlist products based on wishlist IDs
   useEffect(() => {
     const fetchWishlistProducts = async () => {
+      if (!user || wishlistIds.length === 0) return;
+
       try {
-        const products = await Promise.all(
-          wishlistIds.map((id) => getProduct(id))
+        const productPromises = wishlistIds.map(async (id) => {
+          try {
+            const product = await getProduct(id);
+            return product;
+          } catch (error) {
+            console.warn(`Product ${id} not found, removing from wishlist`);
+            removeFromWishlist(id);
+            return null;
+          }
+        });
+
+        const products = await Promise.all(productPromises);
+        // Filter out null values (failed product fetches)
+        const validProducts = products.filter(
+          (product): product is Product => product !== null
         );
-        setWishlistProducts(products.filter(Boolean) as Product[]);
+        setWishlistProducts(validProducts);
       } catch (error) {
         console.error("Failed to fetch wishlist products:", error);
         toast({
@@ -76,12 +90,8 @@ function AccountPage() {
       }
     };
 
-    if (wishlistIds.length > 0) {
-      fetchWishlistProducts();
-    } else {
-      setWishlistProducts([]);
-    }
-  }, [wishlistIds, toast]);
+    fetchWishlistProducts();
+  }, [wishlistIds, user, toast, removeFromWishlist]);
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
