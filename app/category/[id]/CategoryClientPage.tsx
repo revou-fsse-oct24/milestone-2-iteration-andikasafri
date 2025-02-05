@@ -18,16 +18,12 @@ interface ClientProps {
   products: Product[];
   category: Category;
   categories: Category[];
-  params: {
-    id: string;
-  };
 }
 
 export default function CategoryClientPage({
   products,
   category,
   categories,
-  params,
 }: ClientProps) {
   const [isMounted, setIsMounted] = useState(false);
 

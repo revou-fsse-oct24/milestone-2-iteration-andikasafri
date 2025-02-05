@@ -72,6 +72,7 @@ function AccountPageClient() {
             const product = await getProduct(id);
             return product;
           } catch (error) {
+            console.error(error);
             console.warn(`Product ${id} not found, removing from wishlist`);
             removeFromWishlist(id);
             return null;
