@@ -46,7 +46,7 @@ export default async function Home() {
             >
               <div className="aspect-[4/3] relative">
                 <Image
-                  src={category.image || "../public/fallback.jpg"}
+                  src={category.image || "/fallback.jpg"}
                   alt={category.name}
                   fill
                   sizes="(max-width: 768px) 50vw, 33vw"
