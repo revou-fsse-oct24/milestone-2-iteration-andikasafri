@@ -1,19 +1,16 @@
-'use client';
+"use client";
 
-import { ShoppingCart, User, LayoutDashboard } from 'lucide-react';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { useAuth } from '@/lib/auth';
-import { AppProvider } from '@/lib/providers/AppProvider';
-import { Suspense } from 'react';
-import { ErrorBoundary } from '@/components/error-boundary';
-import { LoadingSpinner } from '@/components/loading-spinner';
+import { ShoppingCart, User, LayoutDashboard } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/auth";
+import { AppProvider } from "@/lib/providers/AppProvider";
+import { Suspense } from "react";
+import { ErrorBoundary } from "@/components/error-boundary";
+import { LoadingSpinner } from "@/components/loading-spinner";
+import { ThemeToggle } from "@/components/theme-toggle";
 
-export function ClientLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function ClientLayout({ children }: { children: React.ReactNode }) {
   const { user, isAdmin, logout } = useAuth();
 
   return (
@@ -25,6 +22,7 @@ export function ClientLayout({
               NextShop
             </Link>
             <nav className="flex items-center gap-4">
+              <ThemeToggle />
               <Link href="/cart">
                 <Button variant="ghost" size="icon">
                   <ShoppingCart className="h-5 w-5" />
@@ -59,9 +57,7 @@ export function ClientLayout({
           </div>
         </header>
         <Suspense fallback={<LoadingSpinner />}>
-          <main className="min-h-[calc(100vh-73px)]">
-            {children}
-          </main>
+          <main className="min-h-[calc(100vh-73px)]">{children}</main>
         </Suspense>
       </AppProvider>
     </ErrorBoundary>
