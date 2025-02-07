@@ -44,6 +44,12 @@ export default function ProductGrid({ products }: ProductGridProps) {
     }
   };
 
+  const handleImageError = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src = "/fallback.jpg"; // Replace with your fallback image path
+  };
+
   if (!isMounted) return null;
 
   return (
@@ -60,6 +66,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
                   height={500}
                   className="object-cover w-full h-full transition-transform group-hover:scale-105"
                   priority
+                  onError={handleImageError}
                 />
               </div>
             </Link>

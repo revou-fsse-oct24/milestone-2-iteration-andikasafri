@@ -1,4 +1,4 @@
-# NextShop E-commerce Platform
+# AndikaShop E-commerce Platform
 
 [![Live Demo](https://img.shields.io/badge/demo-live-green?style=for-the-badge)](https://newcontent-three.vercel.app/)
 [![GitHub Repository](https://img.shields.io/badge/repo-GitHub-blue?style=for-the-badge)](https://github.com/revou-fsse-oct24/milestone-2-andikasafri)

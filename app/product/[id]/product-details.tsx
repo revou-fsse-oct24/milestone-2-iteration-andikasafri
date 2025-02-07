@@ -1,4 +1,3 @@
-// product-details.tsx
 "use client";
 
 import { Product } from "@/lib/types";
@@ -24,6 +23,13 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
   const { addItem: addToWishlist, hasItem: isInWishlist } = useAuthWishlist();
   const [selectedImage, setSelectedImage] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  // Fallback image error handler: when an image fails to load, it switches to "/fallback.jpg"
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    e.currentTarget.src = "/fallback.jpg";
+  };
 
   const handleAddToCart = async () => {
     setLoading(true);
@@ -97,6 +103,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
               className="object-cover"
+              onError={handleImageError}
             />
           </div>
           <div className="grid grid-cols-4 gap-4">
@@ -114,6 +121,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                   fill
                   sizes="(max-width: 768px) 25vw, 12.5vw"
                   className="object-cover"
+                  onError={handleImageError}
                 />
               </button>
             ))}
@@ -153,7 +161,6 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
               size="lg"
               variant="outline"
               onClick={handleAddToWishlist}
-              // Disable the button if already in wishlist
               disabled={isInWishlist(product.id)}
             >
               <Heart

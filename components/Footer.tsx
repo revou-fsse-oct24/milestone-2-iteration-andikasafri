@@ -10,7 +10,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* About Section */}
           <div>
-            <h3 className="font-bold text-lg mb-4">About NextShop</h3>
+            <h3 className="font-bold text-lg mb-4">About AndikaShop</h3>
             <p className="text-muted-foreground">
               Your premium shopping destination for quality products and
               exceptional service.
@@ -54,7 +54,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li className="flex items-center gap-2 text-muted-foreground">
                 <Mail className="h-4 w-4" />
-                <span>support@nextshop.com</span>
+                <span>support@andikashop.com</span>
               </li>
               <li className="flex items-center gap-2 text-muted-foreground">
                 <Phone className="h-4 w-4" />
@@ -91,7 +91,7 @@ export function Footer() {
 
         {/* Copyright */}
         <div className="border-t mt-8 pt-8 text-center text-muted-foreground">
-          <p>© {new Date().getFullYear()} NextShop. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} AndikaShop. All rights reserved.</p>
           <p className="text-sm mt-2">
             Developed by{" "}
             <a

@@ -8,10 +8,10 @@ import { ThemeProvider } from "@/components/theme-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "NextShop - Your Premium Shopping Destination",
-  description: "Discover a wide range of premium products at NextShop",
+  title: "AndikaShop - Your Premium Shopping Destination",
+  description: "Discover a wide range of premium products at AndikaShop",
   keywords: "ecommerce, shopping, online store",
-  authors: [{ name: "NextShop Team" }],
+  authors: [{ name: "AndikaShop Team" }],
   robots: "index, follow",
 };
 
