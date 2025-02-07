@@ -2,8 +2,9 @@
 
 import { Product, Category } from "@/lib/types";
 import Link from "next/link";
-import { SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import ProductGrid from "@/components/product-grid";
 import {
   Sheet,
@@ -12,7 +13,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 interface ClientProps {
   products: Product[];
@@ -26,10 +27,23 @@ export default function CategoryClientPage({
   categories,
 }: ClientProps) {
   const [isMounted, setIsMounted] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  // Memoized filtered products based on search query
+  const filteredProducts = useMemo(() => {
+    if (!searchQuery.trim()) return products;
+
+    const searchTerms = searchQuery.toLowerCase().split(" ");
+    return products.filter((product) => {
+      const searchableText =
+        `${product.title} ${product.description} ${product.category.name}`.toLowerCase();
+      return searchTerms.every((term) => searchableText.includes(term));
+    });
+  }, [products, searchQuery]);
 
   if (!isMounted) return null;
 
@@ -74,13 +88,35 @@ export default function CategoryClientPage({
         </div>
 
         <div className="lg:col-span-3">
-          <header className="flex items-center justify-between mb-6">
-            <h1 className="text-2xl font-bold">{category.name}</h1>
-            <span className="text-sm text-muted-foreground">
-              {products.length} products
-            </span>
+          <header className="flex flex-col gap-4 mb-6">
+            <div className="flex items-center justify-between">
+              <h1 className="text-2xl font-bold">{category.name}</h1>
+              <span className="text-sm text-muted-foreground">
+                {filteredProducts.length} products
+              </span>
+            </div>
+
+            {/* Search bar */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+              <Input
+                placeholder={`Search in ${category.name}...`}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
           </header>
-          <ProductGrid products={products} />
+
+          {filteredProducts.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">
+                No products found matching your search.
+              </p>
+            </div>
+          ) : (
+            <ProductGrid products={filteredProducts} />
+          )}
         </div>
       </div>
     </div>
